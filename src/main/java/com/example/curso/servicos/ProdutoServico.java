@@ -1,6 +1,7 @@
 package com.example.curso.servicos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,5 +17,10 @@ public class ProdutoServico {
 	
 	public List<Produto> buscaTodos() {
 		return repositorio.findAll();
+	}
+	
+	public Produto buscaPorId(Integer id) {
+		Optional<Produto> produto = repositorio.findById(id);
+		return produto.get();
 	}
 }
