@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.example.curso.entidades.enuns.StatusPedido;
+
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,6 +20,7 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Instant momento;
+	private Integer status;
 	
 	@ManyToOne
 	@JoinColumn(name = "idCliente")
@@ -27,11 +30,12 @@ public class Pedido implements Serializable {
 		
 	}
 
-	public Pedido(Integer id, Instant momento, Usuario cliente) {
+	public Pedido(Integer id, Instant momento, Usuario cliente, StatusPedido status) {
 		super();
 		this.id = id;
 		this.momento = momento;
 		this.cliente = cliente;
+		setStatus(status);
 	}
 
 	public Integer getId() {
@@ -50,11 +54,21 @@ public class Pedido implements Serializable {
 		this.momento = momento;
 	}
 
-	public Usuario getUsuario() {
+	public StatusPedido getStatus() {
+		return StatusPedido.valorDe(status);
+	}
+
+	public void setStatus(StatusPedido status) {
+		if (status != null) {
+			this.status = status.getCode();
+		}
+	}
+
+	public Usuario getCliente() {
 		return cliente;
 	}
 
-	public void setUsuario(Usuario cliente) {
+	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
 	}
 
