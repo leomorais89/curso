@@ -23,4 +23,20 @@ public class UsuarioServico {
 		Optional<Usuario> usuario = repositorio.findById(id);
 		return usuario.get();
 	}
+	
+	public Usuario salvar(Usuario usuario) {
+		return repositorio.save(usuario);
+	}
+	
+	public void excluir(Integer id) {
+		repositorio.deleteById(id);
+	}
+	
+	public Usuario alterar(Integer id, Usuario usuario) {
+		Usuario entidade = repositorio.getOne(id);
+		entidade.setNome(usuario.getNome());
+		entidade.setEmail(usuario.getEmail());
+		entidade.setTelefone(usuario.getTelefone());
+		return repositorio.save(entidade);
+	}
 }
