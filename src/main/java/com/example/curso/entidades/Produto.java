@@ -2,7 +2,9 @@ package com.example.curso.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -27,6 +32,9 @@ public class Produto implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "categoriaProduto", joinColumns = @JoinColumn(name = "produto"), inverseJoinColumns = @JoinColumn(name = "categoria"))
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.produto")
+	private List<ItemPedido> itensPedido = new ArrayList<>();
 	
 	public Produto() {
 		
@@ -83,6 +91,15 @@ public class Produto implements Serializable {
 
 	public List<Categoria> getCategorias() {
 		return categorias;
+	}
+
+	@JsonIgnore
+	public Set<Pedido> getPedidos() {
+		Set<Pedido> pedidos = new HashSet<>();
+		for (ItemPedido itens : itensPedido) {
+			pedidos.add(itens.getPedido());
+		}
+		return pedidos;
 	}
 
 	@Override

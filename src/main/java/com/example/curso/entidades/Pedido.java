@@ -2,6 +2,8 @@ package com.example.curso.entidades;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.example.curso.entidades.enuns.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido implements Serializable {
@@ -25,6 +29,9 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idCliente")
 	private Usuario cliente;
+	
+	@OneToMany(mappedBy = "id.pedido")
+	List<ItemPedido> itensPedido = new ArrayList<>();
 	
 	public Pedido() {
 		
@@ -70,6 +77,10 @@ public class Pedido implements Serializable {
 
 	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
 	}
 
 	@Override
