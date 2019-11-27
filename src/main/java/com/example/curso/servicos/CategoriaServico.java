@@ -23,4 +23,19 @@ public class CategoriaServico {
 		Optional<Categoria> categoria = repositorio.findById(id);
 		return categoria.get();
 	}
+	
+	public Categoria salvar(Categoria categoria) {
+		categoria = repositorio.save(categoria);
+		return categoria;
+	}
+	
+	public void excluir(Integer id) {
+		repositorio.deleteById(id);
+	}
+	
+	public Categoria alterar(Integer id, Categoria categoria) {
+		Categoria entidade = repositorio.getOne(id);
+		entidade.setNome(categoria.getNome());
+		return repositorio.save(entidade);
+	}
 }
